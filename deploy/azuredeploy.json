@@ -70,6 +70,8 @@
       "sku": {
         "name": "[parameters('appServicePlanSkuName')]",
         "capacity": "[parameters('appServicePlanInstances')]"
+      },
+      "properties": {
       }
     },
     {
@@ -89,7 +91,7 @@
               "ipAddress": "[variables('frontDoorIpRange')]",
               "action": "Allow",
               "tag": "Default",
-              "priority": "100",
+              "priority": 100,
               "name": "FrontDoorIpRange",
               "description": "Azure Front Door Ip range"
             }
@@ -119,6 +121,8 @@
       "sku": {
         "name": "[parameters('appServicePlanSkuName')]",
         "capacity": "[parameters('appServicePlanInstances')]"
+      },
+      "properties": {
       }
     },
     {
@@ -138,7 +142,7 @@
               "ipAddress": "[variables('frontDoorIpRange')]",
               "action": "Allow",
               "tag": "Default",
-              "priority": "100",
+              "priority": 100,
               "name": "FrontDoorIpRange",
               "description": "Azure Front Door Ip range"
             }

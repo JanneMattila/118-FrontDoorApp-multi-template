@@ -16,8 +16,8 @@ Param (
     [ValidateRange(1, 10)]
     [int] $AppServiceInstances = 1,
 
-    [string] $Template = "$PSScriptRoot\azuredeploy.json",
-    [string] $TemplateParameters = "$PSScriptRoot\azuredeploy.parameters.json"
+    [string] $TemplatePath = "$PSScriptRoot\azuredeploy.json",
+    [string] $TemplateToken = ""
 )
 
 $ErrorActionPreference = "Stop"
@@ -39,7 +39,7 @@ else
     $deploymentName = $env:RELEASE_RELEASENAME
 }
 
-if ((Get-AzResourceGroup -Name $ResourceGroupName -Location $Location -ErrorAction SilentlyContinue) -eq $null)
+if ($null -eq (Get-AzResourceGroup -Name $ResourceGroupName -Location $Location -ErrorAction SilentlyContinue))
 {
     Write-Warning "Resource group '$ResourceGroupName' doesn't exist and it will be created."
     New-AzResourceGroup -Name $ResourceGroupName -Location $Location -Verbose
@@ -61,10 +61,10 @@ $result = New-AzResourceGroupDeployment `
     -Mode Complete -Force `
     -Verbose
 
-if ($result.Outputs.webAppName1 -eq $null -or
-    $result.Outputs.webAppUri1 -eq $null -or
-	$result.Outputs.webAppName2 -eq $null -or
-    $result.Outputs.webAppUri2 -eq $null)
+if ($null -eq $result.Outputs.webAppName1 -or
+    $null -eq $result.Outputs.webAppUri1 -or
+	$null -eq $result.Outputs.webAppName2 -or
+    $null -eq $result.Outputs.webAppUri2)
 {
     Throw "Template deployment didn't return web app information correctly and therefore deployment is cancelled."
 }
